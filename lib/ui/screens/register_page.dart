@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:untitled/ui/screens/home_page.dart';
-
 import '../../data/providers/auth_provider.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -35,24 +33,23 @@ class _RegisterPageState extends State<RegisterPage> {
       isLoading = false;
     });
     try {
+      var result =
+          await AuthProvider.instance.register(username, email, password);
+      debugPrint("This is result");
 
-      var result = await authProvider.register(username, email, password);
-      debugPrint ("This is result");
-
-      if (result != null && result ['code']==200) {
+      if (result != null && result['code'] == 200) {
         if (Navigator.of(context).canPop()) {
           Navigator.of(context).pop();
         }
-        Fluttertoast.showToast(msg: "Successfully registered", backgroundColor: Colors.green);
-
-      }else if(result != null && result ['message']!=null) {
-        Fluttertoast.showToast(msg: result['message'], backgroundColor: Colors.green);
-
-      }else {
-        Fluttertoast.showToast(msg: "User already exist", backgroundColor: Colors.green);
+        Fluttertoast.showToast(
+            msg: "Successfully registered", backgroundColor: Colors.green);
+      } else if (result != null && result['message'] != null) {
+        Fluttertoast.showToast(
+            msg: result['message'], backgroundColor: Colors.green);
+      } else {
+        Fluttertoast.showToast(
+            msg: "User already exist", backgroundColor: Colors.green);
       }
-
-
     } on Exception catch (error) {
       String message = (error as dynamic).message;
 
@@ -144,8 +141,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   setState(() {
                     isLoading = true;
                   });
-                  _signUp(passwordTextController.text,
-                       emailTextController.text,usernameTextController.text);
+                  _signUp(passwordTextController.text, emailTextController.text,
+                      usernameTextController.text);
                 },
                 style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(
